@@ -31,8 +31,75 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 
+    // --- Tự động lấy dữ liệu từ GitHub ---
+    async function fetchGitHubData() {
+        const username = 'manh2903';
+        try {
+            // Lấy thông tin profile
+            const profileResponse = await fetch(`https://api.github.com/users/${username}`);
+            const profileData = await profileResponse.json();
 
-    // --- (Tùy chọn) Active class cho Navigation khi cuộn ---
+            // Lấy thông tin repositories
+            const reposResponse = await fetch(`https://api.github.com/users/${username}/repos`);
+            const reposData = await reposResponse.json();
+
+            // Cập nhật thông tin
+            updateProfile(profileData);
+            updateProjects(reposData);
+            updateContactInfo(profileData);
+
+        } catch (error) {
+            console.error('Lỗi khi lấy dữ liệu từ GitHub:', error);
+        }
+    }
+
+    function updateProfile(profileData) {
+        // Cập nhật tagline và intro
+        const tagline = document.querySelector('.tagline');
+        if (tagline) {
+            tagline.textContent = 'Software Developer';
+        }
+
+        const intro = document.querySelector('.intro');
+        if (intro) {
+            intro.textContent = `Chào mừng đến với trang cá nhân của tôi! Tôi là một lập trình viên với kinh nghiệm trong Java và phát triển ứng dụng.`;
+        }
+    }
+
+    function updateProjects(reposData) {
+        const projectsGrid = document.querySelector('.projects-grid');
+        if (!projectsGrid) return;
+
+        // Sắp xếp repositories theo thời gian cập nhật
+        const sortedRepos = reposData
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+            .slice(0, 4); // Lấy 4 repos mới nhất
+
+        projectsGrid.innerHTML = sortedRepos.map(repo => `
+            <div class="project-card">
+                <img src="./images/project-default.jpg" alt="${repo.name}">
+                <h3>${repo.name}</h3>
+                <p>${repo.description || 'Dự án phát triển phần mềm'}</p>
+                <div class="project-links">
+                    ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="btn-secondary">Xem Live</a>` : ''}
+                    <a href="${repo.html_url}" target="_blank" class="btn-secondary">Mã Nguồn</a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function updateContactInfo(profileData) {
+        const contactInfo = document.querySelector('.contact-info');
+        if (!contactInfo) return;
+
+        contactInfo.innerHTML = `
+            <p><i class="fab fa-github"></i> GitHub: <a href="${profileData.html_url}" target="_blank">/manh2903</a></p>
+            ${profileData.email ? `<p><i class="fas fa-envelope-open-text"></i> Email: <a href="mailto:${profileData.email}">${profileData.email}</a></p>` : ''}
+            ${profileData.blog ? `<p><i class="fas fa-globe"></i> Website: <a href="${profileData.blog}" target="_blank">${profileData.blog}</a></p>` : ''}
+        `;
+    }
+
+    // --- Active class cho Navigation khi cuộn ---
     const navLinks = document.querySelectorAll('#navbar ul li a');
     const pageSections = document.querySelectorAll('main section'); // Chọn các section trong main
 
@@ -69,22 +136,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Gọi hàm fetch data từ GitHub
+    fetchGitHubData();
 
-     // --- (Tùy chọn) Xử lý Form Contact (chỉ hiển thị thông báo) ---
-     // Lưu ý: Để form thực sự gửi đi, bạn cần backend hoặc dịch vụ như Formspree
-     const contactForm = document.getElementById('contact-form');
-     if (contactForm) {
-         contactForm.addEventListener('submit', function(e) {
-             // Ngăn chặn hành vi submit mặc định nếu không dùng dịch vụ ngoài
-             // Nếu dùng Formspree hoặc tương tự, bạn có thể không cần dòng này
-              e.preventDefault();
+    // --- (Tùy chọn) Xử lý Form Contact (chỉ hiển thị thông báo) ---
+    // Lưu ý: Để form thực sự gửi đi, bạn cần backend hoặc dịch vụ như Formspree
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            // Ngăn chặn hành vi submit mặc định nếu không dùng dịch vụ ngoài
+            // Nếu dùng Formspree hoặc tương tự, bạn có thể không cần dòng này
+             e.preventDefault();
 
-             // Chỉ hiển thị thông báo đơn giản
-             alert('Cảm ơn bạn đã liên hệ! Tôi sẽ phản hồi sớm nhất có thể.');
+            // Chỉ hiển thị thông báo đơn giản
+            alert('Cảm ơn bạn đã liên hệ! Tôi sẽ phản hồi sớm nhất có thể.');
 
-             // (Tùy chọn) Xóa nội dung form sau khi gửi
-              this.reset();
-         });
-     }
+            // (Tùy chọn) Xóa nội dung form sau khi gửi
+             this.reset();
+        });
+    }
 
 });
