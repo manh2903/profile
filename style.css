@@ -1,0 +1,538 @@
+/* --- Reset & Basic Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth; /* Cuộn mượt khi click link */
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 0.8rem;
+    color: #1a2a3a; /* Màu tối hơn cho tiêu đề */
+}
+
+h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* Đường gạch chân cho tiêu đề section */
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: #007bff; /* Màu nhấn chính */
+}
+
+h2 i { /* Icon trước tiêu đề section */
+    margin-right: 10px;
+    color: #007bff;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.section {
+    padding: 60px 0;
+}
+
+.alt-bg {
+    background-color: #fff; /* Nền trắng cho section xen kẽ */
+}
+
+/* --- Header / Hero Section --- */
+#hero {
+    background: linear-gradient(rgba(26, 42, 58, 0.8), rgba(26, 42, 58, 0.9)), url('images/background.jpg') no-repeat center center/cover; /* Thay background nếu muốn */
+    color: #fff;
+    padding: 100px 0 60px;
+    text-align: center;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#hero .profile-pic {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#hero h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+#hero .tagline {
+    font-size: 1.4rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    color: #eee;
+}
+
+#hero .intro {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+    color: #ddd;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    color: #fff;
+}
+
+/* --- Navigation --- */
+#navbar {
+    background-color: #1a2a3a; /* Màu nền tối cho nav */
+    color: #fff;
+    position: sticky; /* Thanh nav dính khi cuộn */
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#navbar .container {
+    display: flex;
+    justify-content: center; /* Căn giữa các mục nav */
+    align-items: center;
+    padding: 10px 20px;
+}
+
+#navbar ul {
+    display: flex;
+}
+
+#navbar ul li {
+    margin: 0 15px;
+}
+
+#navbar ul li a {
+    color: #fff;
+    padding: 10px 5px;
+    font-weight: bold;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+#navbar ul li a:hover,
+#navbar ul li a.active { /* Thêm class active bằng JS nếu muốn */
+    color: #00aaff; /* Màu sáng hơn khi hover/active */
+    border-bottom: 2px solid #00aaff;
+}
+
+/* --- About Section --- */
+#about p {
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Skills Section --- */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.skill-item {
+    background-color: #f4f4f4;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+
+.skill-item i {
+    font-size: 2.5rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.skill-item h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.skill-item ul li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+
+/* --- Experience Section (Timeline) --- */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Đường kẻ dọc */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    background-color: #007bff;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1.5px;
+}
+
+/* Các mục trên timeline */
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+/* Chấm tròn trên đường kẻ */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: -8px; /* Đặt vào giữa đường kẻ */
+    background-color: white;
+    border: 3px solid #007bff;
+    top: 25px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Các mục bên trái */
+.timeline-item:nth-child(odd) {
+    left: 0;
+}
+.timeline-item:nth-child(odd)::after {
+    left: -8px;
+}
+
+/* Các mục bên phải */
+.timeline-item:nth-child(even) {
+    left: 50%;
+}
+
+/* Nội dung trong mỗi mục */
+.timeline-content {
+    padding: 20px 30px;
+    background-color: white;
+    position: relative;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-content h3 {
+    margin-top: 0;
+    color: #007bff;
+    font-size: 1.4rem;
+}
+
+.timeline-content .date {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.timeline-content ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+.timeline-content ul li {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+/* --- Projects Section --- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.project-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.project-card img {
+    width: 100%;
+    height: 200px; /* Cố định chiều cao ảnh */
+    object-fit: cover; /* Đảm bảo ảnh vừa vặn */
+}
+
+.project-card h3 {
+    padding: 1rem 1rem 0.5rem;
+    font-size: 1.3rem;
+    color: #0056b3;
+}
+
+.project-card p {
+    padding: 0 1rem 1rem;
+    flex-grow: 1; /* Đẩy link xuống dưới */
+     color: #666;
+}
+
+.project-links {
+    padding: 0 1rem 1rem;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background-color: #6c757d; /* Màu xám */
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    color: #fff;
+}
+
+/* --- Contact Section --- */
+#contact p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.contact-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.contact-info p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+.contact-info i {
+    margin-right: 10px;
+    color: #007bff;
+    width: 20px; /* Đảm bảo icon thẳng hàng */
+    text-align: center;
+}
+
+/* --- Contact Form (Optional) --- */
+#contact-form {
+    max-width: 600px;
+    margin: 2rem auto 0;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    resize: vertical; /* Cho phép thay đổi chiều cao */
+}
+
+#contact-form button {
+     display: block; /* Nút chiếm cả dòng */
+     width: 100%;
+     cursor: pointer;
+     border: none; /* Bỏ viền mặc định */
+}
+
+
+/* --- Footer --- */
+footer {
+    background-color: #1a2a3a; /* Giống navbar */
+    color: #aaa;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px; /* Khoảng cách với section cuối */
+}
+
+footer p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+/* --- Animations --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    h2 { font-size: 2rem; }
+    #hero h1 { font-size: 2.5rem; }
+    #hero .tagline { font-size: 1.2rem; }
+}
+
+@media (max-width: 768px) {
+    #navbar .container { justify-content: space-around; } /* Cho nav thu nhỏ */
+    #navbar ul li { margin: 0 10px; }
+
+    /* Timeline stack */
+    .timeline::after {
+        left: 31px;
+    }
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+    .timeline-item:nth-child(odd),
+    .timeline-item:nth-child(even) {
+        left: 0%;
+    }
+    .timeline-item::after {
+        left: 15px; /* Đặt chấm tròn sang trái */
+    }
+     /* Mũi tên chỉ ra */
+    .timeline-content::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        left: -15px; /* Chỉ mũi tên sang trái */
+        border: medium solid white;
+        border-width: 10px 15px 10px 0; /* Tạo mũi tên */
+        border-color: transparent white transparent transparent;
+    }
+     .timeline-item:nth-child(even) .timeline-content {
+        /* Không cần style đặc biệt cho even nữa */
+    }
+
+
+    .skills-grid { grid-template-columns: 1fr; } /* Skills xếp chồng */
+    .projects-grid { grid-template-columns: 1fr; } /* Projects xếp chồng */
+}
+
+@media (max-width: 576px) {
+    #hero { padding: 80px 0 40px; }
+    #hero .profile-pic { width: 150px; height: 150px; }
+    #hero h1 { font-size: 2rem; }
+    #hero .tagline { font-size: 1rem; }
+     #hero .intro { font-size: 1rem;}
+
+    #navbar { padding: 5px 0;}
+    #navbar ul li a { font-size: 0.9rem; padding: 8px 3px; }
+    #navbar ul li { margin: 0 5px; }
+
+    h2 { font-size: 1.8rem; }
+    .section { padding: 40px 0; }
+
+    .contact-info p { font-size: 1rem; }
+}
