@@ -3,27 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Nguyễn Đức Mạnh</title>
+    <title>Nguyễn Đức Mạnh | Software Developer</title>
+    <meta name="description" content="Portfolio của Nguyễn Đức Mạnh - Software Developer chuyên nghiệp với kinh nghiệm trong Java, Android và Web Development.">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Thêm Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header id="hero">
-        <div class="container">
-            <img src="./images/profile.jpg" alt="Ảnh đại diện Nguyễn Đức Mạnh" class="profile-pic">
-            <h1>Nguyễn Đức Mạnh</h1>
-            <p class="tagline">Software Developer</p>
-            <p class="intro">Chào mừng đến với trang cá nhân của tôi!</p>
-            <a href="#contact" class="cta-button">Liên Hệ Với Tôi</a>
-        </div>
-    </header>
-
     <nav id="navbar">
-         <div class="container">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero" style="font-weight: 900; color: var(--primary-color); font-size: 1.8rem; letter-spacing: -1px;">NDM<span style="color: var(--text-primary);">.</span></a>
+            </div>
             <ul>
                 <li><a href="#about">Giới Thiệu</a></li>
                 <li><a href="#skills">Kỹ Năng</a></li>
@@ -31,50 +24,74 @@
                 <li><a href="#projects">Dự Án</a></li>
                 <li><a href="#contact">Liên Hệ</a></li>
             </ul>
-         </div>
+        </div>
     </nav>
 
+    <header id="heroSection">
+        <section id="hero">
+            <div class="blob-container">
+                <div class="blob blob-1"></div>
+                <div class="blob blob-2"></div>
+            </div>
+            <div class="container">
+                <img src="./images/profile.jpg" alt="Ảnh đại diện Nguyễn Đức Mạnh" class="profile-pic fade-in">
+                <h1 class="fade-in">Nguyễn Đức Mạnh</h1>
+                <p class="tagline fade-in">Software Developer</p>
+                <p class="intro fade-in">Kiến tạo giải pháp công nghệ hiện đại, tối ưu và mang đậm dấu ấn sáng tạo.</p>
+                <div class="cta-wrapper fade-in">
+                    <a href="#contact" class="cta-button">Bắt Đầu Hợp Tác</a>
+                </div>
+            </div>
+        </section>
+    </header>
+
     <main>
+        <div id="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+
         <section id="about" class="section">
             <div class="container fade-in">
-                <h2><i class="fas fa-user"></i> Giới Thiệu Bản Thân</h2>
-                <p>Xin chào! Tôi là Nguyễn Đức Mạnh. Tôi có niềm đam mê lớn với lập trình và phát triển phần mềm.</p>
-                <p>Tôi luôn tìm kiếm cơ hội để học hỏi, phát triển và áp dụng kỹ năng của mình vào những dự án thử thách và có ý nghĩa.</p>
+                <h2>Về Tôi</h2>
+                <div style="max-width: 850px; margin: 0 auto; text-align: center; font-size: 1.2rem; line-height: 1.8;">
+                    <p>Tôi là một <strong>Software Developer</strong> tận tâm với khát khao biến những ý tưởng phức tạp thành các sản phẩm công nghệ đơn giản và hữu ích.</p>
+                    <p>Với nền tảng vững chắc về Java và Android, tôi không ngừng mở rộng giới hạn bản thân trong việc tối ưu hóa hiệu năng và xây dựng trải nghiệm người dùng mượt mà nhất.</p>
+                </div>
             </div>
         </section>
 
         <section id="skills" class="section alt-bg">
             <div class="container fade-in">
-                <h2><i class="fas fa-code"></i> Kỹ Năng Chuyên Môn</h2>
+                <h2>Kỹ Năng</h2>
                 <div class="skills-grid">
                     <div class="skill-item">
-                        <i class="fas fa-laptop-code"></i>
-                        <h3>Ngôn Ngữ & Framework</h3>
+                        <i class="fas fa-code-branch"></i>
+                        <h3>Backend & Core</h3>
                         <ul>
-                            <li>Java</li>
-                            <li>HTML5, CSS3, JavaScript</li>
-                            <li>TSQL</li>
-                            <li>Android Development</li>
+                            <li>Java Spring Boot</li>
+                            <li>Android Native (Kotlin/Java)</li>
+                            <li>Tối ưu hóa Database SQL</li>
+                            <li>RESTful API Design</li>
                         </ul>
                     </div>
                     <div class="skill-item">
-                        <i class="fas fa-tools"></i>
-                        <h3>Công Cụ & Nền Tảng</h3>
+                        <i class="fas fa-layer-group"></i>
+                        <h3>Frontend & Web</h3>
                         <ul>
-                            <li>Git & GitHub</li>
-                            <li>Android Studio</li>
-                            <li>SQL Server</li>
-                            <li>Visual Studio Code</li>
+                            <li>HTML5 / CSS3 / ES6+</li>
+                            <li>Modern UI/UX Principles</li>
+                            <li>Responsive Design</li>
+                            <li>Performance Optimization</li>
                         </ul>
                     </div>
-                     <div class="skill-item">
-                        <i class="fas fa-comments"></i>
-                        <h3>Kỹ Năng Mềm</h3>
+                    <div class="skill-item">
+                        <i class="fas fa-rocket"></i>
+                        <h3>DevOps & Tools</h3>
                         <ul>
-                            <li>Giao tiếp hiệu quả</li>
-                            <li>Làm việc nhóm</li>
-                            <li>Giải quyết vấn đề</li>
-                            <li>Tư duy phản biện</li>
+                            <li>Git, Docker, CI/CD</li>
+                            <li>Agile / Scrum Master</li>
+                            <li>Cloud Basics (AWS/Firebase)</li>
+                            <li>Problem Solving</li>
                         </ul>
                     </div>
                 </div>
@@ -83,17 +100,14 @@
 
         <section id="experience" class="section">
             <div class="container fade-in">
-                <h2><i class="fas fa-briefcase"></i> Kinh Nghiệm Làm Việc</h2>
+                <h2>Hành Trình</h2>
                 <div class="timeline">
                     <div class="timeline-item">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <h3>Software Developer</h3>
-                            <span class="date">2023 - Hiện tại</span>
-                            <ul>
-                                <li>Phát triển các ứng dụng Java và Android.</li>
-                                <li>Làm việc với cơ sở dữ liệu SQL Server.</li>
-                                <li>Tham gia các dự án phát triển phần mềm.</li>
-                            </ul>
+                            <span style="color: var(--primary-color); font-weight: 800; display: block; margin-bottom: 1rem; font-size: 1.1rem;">2023 - NAY</span>
+                            <p>Chuyên tâm vào việc phát triển hệ thống backend Java mạnh mẽ và các ứng dụng Android trực quan. Luôn đặt tiêu chuẩn cao về chất lượng mã nguồn và tính bảo trì của hệ thống.</p>
                         </div>
                     </div>
                 </div>
@@ -102,19 +116,18 @@
 
         <section id="projects" class="section alt-bg">
             <div class="container fade-in">
-                <h2><i class="fas fa-project-diagram"></i> Dự Án Nổi Bật</h2>
+                <h2>Dự Án Tâm Huyết</h2>
                 <div class="projects-grid">
-                    <!-- Projects sẽ được thêm tự động bởi JavaScript -->
+                    <!-- GitHub Repositories will be injected here -->
                 </div>
             </div>
         </section>
 
         <section id="contact" class="section">
             <div class="container fade-in">
-                <h2><i class="fas fa-envelope"></i> Liên Hệ</h2>
-                <p>Tôi luôn sẵn lòng trao đổi về các cơ hội hợp tác hoặc đơn giản là kết nối. Đừng ngần ngại liên hệ!</p>
+                <h2>Kết Nối</h2>
                 <div class="contact-info">
-                    <!-- Contact info sẽ được thêm tự động bởi JavaScript -->
+                    <!-- Dynamic contact content -->
                 </div>
             </div>
         </section>
@@ -122,7 +135,7 @@
 
     <footer>
         <div class="container">
-            <p>© <span id="current-year"></span> Nguyễn Đức Mạnh. All Rights Reserved.</p>
+            <p>© <span id="current-year"></span> Nguyễn Đức Mạnh. Built with passion & precision.</p>
         </div>
     </footer>
 

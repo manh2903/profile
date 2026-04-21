@@ -1,159 +1,144 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- Cập nhật năm hiện tại cho footer ---
-    const currentYear = new Date().getFullYear();
+    const GITHUB_USERNAME = 'manh2903';
+
+    // --- Current Year ---
     const yearSpan = document.getElementById('current-year');
-    if (yearSpan) {
-        yearSpan.textContent = currentYear;
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+    // --- Navbar & Back to Top Logic ---
+    const navbar = document.getElementById('navbar');
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
+            backToTop.classList.add('visible');
+        } else {
+            navbar.classList.remove('scrolled');
+            backToTop.classList.remove('visible');
+        }
+    });
+
+    if (backToTop) {
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
 
-    // --- Hiệu ứng Fade-in khi cuộn đến section ---
-    const sections = document.querySelectorAll('.fade-in');
-
-    const observerOptions = {
-        root: null, // Quan sát so với viewport
-        rootMargin: '0px',
-        threshold: 0.1 // Kích hoạt khi 10% section hiển thị
-    };
-
-    const observerCallback = (entries, observer) => {
+    // --- Intersection Observer for Animations ---
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Ngừng quan sát khi đã hiển thị
             }
         });
-    };
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // --- Tự động lấy dữ liệu từ GitHub ---
+    // --- GitHub Data ---
     async function fetchGitHubData() {
-        const username = 'manh2903';
         try {
-            // Lấy thông tin profile
-            const profileResponse = await fetch(`https://api.github.com/users/${username}`);
-            const profileData = await profileResponse.json();
+            const [profileRes, reposRes] = await Promise.all([
+                fetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
+                fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=10`)
+            ]);
 
-            // Lấy thông tin repositories
-            const reposResponse = await fetch(`https://api.github.com/users/${username}/repos`);
-            const reposData = await reposResponse.json();
+            if (!profileRes.ok || !reposRes.ok) throw new Error('GitHub API response not OK');
 
-            // Cập nhật thông tin
-            updateProfile(profileData);
-            updateProjects(reposData);
-            updateContactInfo(profileData);
+            const profile = await profileRes.json();
+            const repos = await reposRes.json();
 
+            renderProjects(repos);
+            renderContact(profile);
         } catch (error) {
-            console.error('Lỗi khi lấy dữ liệu từ GitHub:', error);
+            console.error('Data loading error:', error);
+            renderError('Không thể tải dữ liệu từ GitHub. Vui lòng kiểm tra kết nối mạng.');
         }
     }
 
-    function updateProfile(profileData) {
-        // Cập nhật tagline và intro
-        const tagline = document.querySelector('.tagline');
-        if (tagline) {
-            tagline.textContent = 'Software Developer';
+    function renderProjects(repos) {
+        const grid = document.querySelector('.projects-grid');
+        if (!grid) return;
+
+        // Lọc bỏ forks và repos rác
+        const filteredRepos = repos
+            .filter(repo => !repo.fork && repo.name.toLowerCase() !== GITHUB_USERNAME.toLowerCase())
+            .slice(0, 6);
+
+        if (filteredRepos.length === 0) {
+            grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Chưa có dự án nào được hiển thị.</p>';
+            return;
         }
 
-        const intro = document.querySelector('.intro');
-        if (intro) {
-            intro.textContent = `Chào mừng đến với trang cá nhân của tôi! Tôi là một lập trình viên với kinh nghiệm trong Java và phát triển ứng dụng.`;
-        }
-    }
-
-    function updateProjects(reposData) {
-        const projectsGrid = document.querySelector('.projects-grid');
-        if (!projectsGrid) return;
-
-        // Sắp xếp repositories theo thời gian cập nhật
-        const sortedRepos = reposData
-            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-            .slice(0, 4); // Lấy 4 repos mới nhất
-
-        projectsGrid.innerHTML = sortedRepos.map(repo => `
+        grid.innerHTML = filteredRepos.map(repo => `
             <div class="project-card">
-                <img src="./images/project-default.jpg" alt="${repo.name}">
+                <div class="project-thumbnail">
+                    <img src="https://opengraph.githubassets.com/1/${repo.full_name}" alt="${repo.name}" onerror="this.src='./images/project-default.jpg'">
+                </div>
                 <h3>${repo.name}</h3>
-                <p>${repo.description || 'Dự án phát triển phần mềm'}</p>
+                <p>${repo.description || 'Giải pháp phát triển phần mềm tập trung vào tối ưu hóa hiệu suất và trải nghiệm người dùng.'}</p>
                 <div class="project-links">
-                    ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="btn-secondary">Xem Live</a>` : ''}
-                    <a href="${repo.html_url}" target="_blank" class="btn-secondary">Mã Nguồn</a>
+                    <a href="${repo.html_url}" target="_blank" class="btn-secondary">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="btn-secondary"><i class="fas fa-external-link-alt"></i> Demo</a>` : ''}
                 </div>
             </div>
         `).join('');
     }
 
-    function updateContactInfo(profileData) {
-        const contactInfo = document.querySelector('.contact-info');
-        if (!contactInfo) return;
+    function renderContact(profile) {
+        const contactArea = document.querySelector('.contact-info');
+        if (!contactArea) return;
 
-        contactInfo.innerHTML = `
-            <p><i class="fab fa-github"></i> GitHub: <a href="${profileData.html_url}" target="_blank">/manh2903</a></p>
-            ${profileData.email ? `<p><i class="fas fa-envelope-open-text"></i> Email: <a href="mailto:${profileData.email}">${profileData.email}</a></p>` : ''}
-            ${profileData.blog ? `<p><i class="fas fa-globe"></i> Website: <a href="${profileData.blog}" target="_blank">${profileData.blog}</a></p>` : ''}
+        contactArea.innerHTML = `
+            <div class="contact-card">
+                <i class="fab fa-github"></i>
+                <h3>GitHub</h3>
+                <p><a href="${profile.html_url}" target="_blank">@${profile.login}</a></p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <p><a href="mailto:manh.nd@example.com">manh.nd@example.com</a></p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Vị Trí</h3>
+                <p>${profile.location || 'Hà Nội, Việt Nam'}</p>
+            </div>
         `;
     }
 
-    // --- Active class cho Navigation khi cuộn ---
+    function renderError(message) {
+        const grid = document.querySelector('.projects-grid');
+        const contact = document.querySelector('.contact-info');
+        if (grid) grid.innerHTML = `<p style="text-align: center; grid-column: 1/-1; color: #ef4444;">${message}</p>`;
+        if (contact) contact.innerHTML = `<p style="text-align: center; grid-column: 1/-1;">Kết nối thủ công qua GitHub: <a href="https://github.com/${GITHUB_USERNAME}">/manh2903</a></p>`;
+    }
+
+    // --- Active Link Highlight ---
     const navLinks = document.querySelectorAll('#navbar ul li a');
-    const pageSections = document.querySelectorAll('main section'); // Chọn các section trong main
+    const sections = document.querySelectorAll('section[id]');
 
     window.addEventListener('scroll', () => {
-        let currentSectionId = '';
-
-        pageSections.forEach(section => {
+        let current = '';
+        sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            // Thêm một khoảng offset nhỏ để kích hoạt sớm hơn một chút
-            const offset = 50;
-            if (pageYOffset >= sectionTop - sectionHeight / 3 - offset) {
-                 currentSectionId = section.getAttribute('id');
+            if (pageYOffset >= sectionTop - 150) {
+                current = section.getAttribute('id');
             }
         });
-
-         // Xử lý trường hợp đang ở section Hero (header)
-        const heroSection = document.getElementById('hero');
-        if (heroSection && pageYOffset < heroSection.offsetHeight - 50) {
-             currentSectionId = ''; // Không active link nào khi ở trên cùng
-        }
-
 
         navLinks.forEach(link => {
             link.classList.remove('active');
-             // Kiểm tra nếu href của link khớp với id section hiện tại
-            if (currentSectionId && link.getAttribute('href') === `#${currentSectionId}`) {
+            if (link.getAttribute('href').includes(current)) {
                 link.classList.add('active');
             }
         });
-         // Nếu không có section nào được xác định (ở top), bỏ active tất cả
-        if (!currentSectionId && pageYOffset < heroSection.offsetHeight - 50) {
-             navLinks.forEach(link => link.classList.remove('active'));
-        }
     });
 
-    // Gọi hàm fetch data từ GitHub
     fetchGitHubData();
-
-    // --- (Tùy chọn) Xử lý Form Contact (chỉ hiển thị thông báo) ---
-    // Lưu ý: Để form thực sự gửi đi, bạn cần backend hoặc dịch vụ như Formspree
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            // Ngăn chặn hành vi submit mặc định nếu không dùng dịch vụ ngoài
-            // Nếu dùng Formspree hoặc tương tự, bạn có thể không cần dòng này
-             e.preventDefault();
-
-            // Chỉ hiển thị thông báo đơn giản
-            alert('Cảm ơn bạn đã liên hệ! Tôi sẽ phản hồi sớm nhất có thể.');
-
-            // (Tùy chọn) Xóa nội dung form sau khi gửi
-             this.reset();
-        });
-    }
-
 });
